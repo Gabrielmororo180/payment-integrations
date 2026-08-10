@@ -1,0 +1,55 @@
+{
+  "name": "payment-integrations",
+  "version": "1.0.0",
+  "description": "Demonstração prática de integrações com APIs reais de pagamento (Mercado Pago, Stripe) via HTTP nativo, Arquitetura Hexagonal, SOLID e CI/CD.",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "vitest run test",
+    "test:watch": "vitest test",
+    "format": "prettier --write \"{src,test}/**/*.ts\"",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "payment",
+    "mercado-pago",
+    "stripe",
+    "pix",
+    "hexagonal-architecture",
+    "solid",
+    "fastify",
+    "typescript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^5.2.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.6"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}
