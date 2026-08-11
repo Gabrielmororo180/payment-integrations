@@ -1,3 +1,5 @@
+import { InvalidAmountError } from '../errors/domain.errors.js'
+
 /**
  * Value Object representing a monetary amount stored strictly as integer cents.
  * Prevents floating point inaccuracies in financial calculations.
@@ -15,10 +17,10 @@ export class Money {
    */
   private validate(cents: number): void {
     if (!Number.isInteger(cents)) {
-      throw new Error('Money amount must be an integer representing cents.')
+      throw new InvalidAmountError('Money amount must be an integer representing cents.')
     }
     if (cents < 0) {
-      throw new Error('Money amount cannot be negative.')
+      throw new InvalidAmountError('Money amount cannot be negative.')
     }
   }
 

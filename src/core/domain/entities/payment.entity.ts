@@ -3,6 +3,7 @@ import { Money } from '../value-objects/money.vo.js'
 import { IdempotencyKey } from '../value-objects/idempotency-key.vo.js'
 import { PaymentStatus } from '../value-objects/payment-status.vo.js'
 import { PaymentMethod } from '../value-objects/payment-method.vo.js'
+import { InvalidStatusTransitionError } from '../errors/domain.errors.js'
 
 export interface CreatePaymentProps {
   amount: Money
@@ -83,7 +84,9 @@ export class Payment {
    */
   public approve(externalId: string, provider: string): void {
     if (this.status.isTerminal()) {
-      throw new Error(`Cannot approve payment in terminal status: ${this.status.getValue()}`)
+      throw new InvalidStatusTransitionError(
+        `Cannot approve payment in terminal status: ${this.status.getValue()}`,
+      )
     }
     this.status = PaymentStatus.create('APPROVED')
     this.externalId = externalId
@@ -96,7 +99,9 @@ export class Payment {
    */
   public reject(externalId?: string, provider?: string): void {
     if (this.status.isTerminal()) {
-      throw new Error(`Cannot reject payment in terminal status: ${this.status.getValue()}`)
+      throw new InvalidStatusTransitionError(
+        `Cannot reject payment in terminal status: ${this.status.getValue()}`,
+      )
     }
     this.status = PaymentStatus.create('REJECTED')
     if (externalId) this.externalId = externalId
@@ -109,7 +114,9 @@ export class Payment {
    */
   public cancel(): void {
     if (this.status.isTerminal()) {
-      throw new Error(`Cannot cancel payment in terminal status: ${this.status.getValue()}`)
+      throw new InvalidStatusTransitionError(
+        `Cannot cancel payment in terminal status: ${this.status.getValue()}`,
+      )
     }
     this.status = PaymentStatus.create('CANCELLED')
     this.touch()
@@ -120,7 +127,9 @@ export class Payment {
    */
   public refund(): void {
     if (!this.status.canRefund()) {
-      throw new Error(`Cannot refund payment with status: ${this.status.getValue()}`)
+      throw new InvalidStatusTransitionError(
+        `Cannot refund payment with status: ${this.status.getValue()}`,
+      )
     }
     this.status = PaymentStatus.create('REFUNDED')
     this.touch()

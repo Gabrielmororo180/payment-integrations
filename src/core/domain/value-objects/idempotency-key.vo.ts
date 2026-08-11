@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto'
+import { InvalidIdempotencyKeyError } from '../errors/domain.errors.js'
 
 /**
  * Value Object representing a unique Idempotency Key (UUID v4 format).
@@ -19,10 +20,12 @@ export class IdempotencyKey {
    */
   private validate(value: string): void {
     if (!value || typeof value !== 'string') {
-      throw new Error('Idempotency key must be a non-empty string.')
+      throw new InvalidIdempotencyKeyError('Idempotency key must be a non-empty string.')
     }
     if (!IdempotencyKey.UUID_V4_REGEX.test(value)) {
-      throw new Error('Invalid idempotency key format. Must be a valid UUID v4.')
+      throw new InvalidIdempotencyKeyError(
+        'Invalid idempotency key format. Must be a valid UUID v4.',
+      )
     }
   }
 

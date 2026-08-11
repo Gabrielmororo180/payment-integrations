@@ -1,3 +1,5 @@
+import { InvalidPaymentValueError } from '../errors/domain.errors.js'
+
 export type PaymentMethodType = 'PIX' | 'CREDIT_CARD'
 
 /**
@@ -19,7 +21,7 @@ export class PaymentMethod {
    */
   private validate(value: PaymentMethodType): void {
     if (!PaymentMethod.VALID_METHODS.includes(value)) {
-      throw new Error(`Invalid payment method: ${value}`)
+      throw new InvalidPaymentValueError(`Invalid payment method: ${value}`)
     }
   }
 

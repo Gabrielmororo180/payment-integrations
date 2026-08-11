@@ -1,3 +1,5 @@
+import { InvalidPaymentValueError } from '../errors/domain.errors.js'
+
 export type PaymentStatusType = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED' | 'REFUNDED'
 
 /**
@@ -25,7 +27,7 @@ export class PaymentStatus {
    */
   private validate(value: PaymentStatusType): void {
     if (!PaymentStatus.VALID_STATUSES.includes(value)) {
-      throw new Error(`Invalid payment status: ${value}`)
+      throw new InvalidPaymentValueError(`Invalid payment status: ${value}`)
     }
   }
 
