@@ -1,5 +1,9 @@
 import { randomUUID } from 'node:crypto'
 
+/**
+ * Value Object representing a unique Idempotency Key (UUID v4 format).
+ * Used to ensure payment mutation requests are processed safely without duplicate charges.
+ */
 export class IdempotencyKey {
   private readonly value: string
   private static readonly UUID_V4_REGEX =
@@ -10,6 +14,9 @@ export class IdempotencyKey {
     this.value = value
   }
 
+  /**
+   * Validates that the key is a non-empty, properly formatted UUID v4 string.
+   */
   private validate(value: string): void {
     if (!value || typeof value !== 'string') {
       throw new Error('Idempotency key must be a non-empty string.')
@@ -19,18 +26,30 @@ export class IdempotencyKey {
     }
   }
 
+  /**
+   * Factory method to encapsulate an existing UUID v4 string.
+   */
   public static create(value: string): IdempotencyKey {
     return new IdempotencyKey(value)
   }
 
+  /**
+   * Factory method to generate a new cryptographically strong UUID v4 IdempotencyKey.
+   */
   public static generate(): IdempotencyKey {
     return new IdempotencyKey(randomUUID())
   }
 
+  /**
+   * Returns the string representation of the idempotency key.
+   */
   public getValue(): string {
     return this.value
   }
 
+  /**
+   * Compares equality with another IdempotencyKey.
+   */
   public equals(other: IdempotencyKey): boolean {
     return this.value === other.getValue()
   }
