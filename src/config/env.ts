@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 const envSchema = z.object({
   PORT: z.coerce.number().default(3000),
@@ -8,13 +8,13 @@ const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
   DATABASE_URL: z.string().optional(),
-});
+})
 
-const _env = envSchema.safeParse(process.env);
+const _env = envSchema.safeParse(process.env)
 
 if (!_env.success) {
-  console.error('Erro na validação das variáveis de ambiente:', _env.error.format());
-  throw new Error('Variáveis de ambiente inválidas.');
+  console.error('Erro na validação das variáveis de ambiente:', _env.error.format())
+  throw new Error('Variáveis de ambiente inválidas.')
 }
 
-export const env = _env.data;
+export const env = _env.data
